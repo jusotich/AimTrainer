@@ -8,12 +8,13 @@ public class TargetBehavior : MonoBehaviour
         health -= amount;
         if (health <= 0)
         {
-            die();
+            Die();
         }
     }
-    void die()
+
+    void Die()
     {
-        TargetSpawner spawner = FindObjectOfType<TargetSpawner>();
+        TargetSpawner spawner = FindAnyObjectByType<TargetSpawner>();
         if (spawner != null)
         {
             spawner.TargetDestroyed();

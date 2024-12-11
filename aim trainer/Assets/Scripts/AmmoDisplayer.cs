@@ -1,21 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AmmoText : MonoBehaviour
 {
-    public Text ammoText;
+    public TextMeshProUGUI textMeshPro;
     public Gun gun;
-    void Start()
-    {
-        if( ammoText = null)
-        {
-            ammoText = GetComponent<Text>();
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        ammoText.text = $"{gun.ammo}/[{gun.ammoMax}";
+        textMeshPro.text = gun.ammo.ToString() + "/10";
     }
 }

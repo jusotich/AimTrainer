@@ -17,13 +17,14 @@ public class Gun : MonoBehaviour
     {
         if (attackAction.WasPressedThisFrame())
         {
-            shoot();
+            Shoot();
         }
     }
-    void shoot()
+    void Shoot()
     {
         if (ammo > 0) 
         {
+            ammo -= 1;
             RaycastHit hit;
             if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit))
             {
