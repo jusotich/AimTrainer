@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ public class Gun : MonoBehaviour
     public float ammo = 10f;
     public Camera fpsCamera;
     private InputAction attackAction;
+    public bool canShoot = true;
 
     private void Start()
     {
@@ -15,9 +17,16 @@ public class Gun : MonoBehaviour
     }
     private void Update()
     {
-        if (attackAction.WasPressedThisFrame())
+        if (canShoot)
         {
-            Shoot();
+            if (attackAction.WasPressedThisFrame())
+            {
+                Shoot();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                StartCoroutine(Reload());
+            }
         }
     }
     void Shoot()
@@ -40,17 +49,19 @@ public class Gun : MonoBehaviour
         }
         else
         {
-            reload();
+            StartCoroutine(Reload());
         }
     }
-    void reload()
+    private IEnumerator Reload()
     {
         if (ammo >= 1)
         {
-            ammo = ammo - ammoMax;
+            yield return new WaitForSeconds(2);
+            ammo = ammoMax;
         }
         else
         {
+            yield return new WaitForSeconds(3);
             ammo = 9;
         }
     }

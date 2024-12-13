@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TargetBehavior : MonoBehaviour
 {
+    public scoreManger scoreManger;
     public float health = 10f;
     public void TakeDamage(float amount)
     {
@@ -20,5 +21,6 @@ public class TargetBehavior : MonoBehaviour
             spawner.TargetDestroyed();
         }
         Destroy(gameObject);
+        scoreManger.currentScore += 10;
     }
 }
