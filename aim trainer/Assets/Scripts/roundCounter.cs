@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
-
+using TMPro;
 public class roundCounter : MonoBehaviour
 {
     public int roundLenght;
+    public TextMeshProUGUI CountDown;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +20,7 @@ public class roundCounter : MonoBehaviour
     {
         while (roundLenght > 0) 
         {
+            CountDown.text = roundLenght.ToString();
             yield return new WaitForSeconds(roundLenght);
             roundLenght--;
         }

@@ -312,7 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dab244dc82028d41ab5af02e5be22d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundLenght: 0
+  roundLenght: 10
+  CountDown: {fileID: 0}
 --- !u!1 &342136424
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,7 +326,7 @@ GameObject:
   - component: {fileID: 342136427}
   - component: {fileID: 342136426}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: RoundCountDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
