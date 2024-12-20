@@ -1,9 +1,12 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class roundCounter : MonoBehaviour
 {
     public int roundLenght;
+    public TextMeshProUGUI roundTimer;
+    public CountDown CountDown;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,11 +20,17 @@ public class roundCounter : MonoBehaviour
     }
     private IEnumerator RoundCountdown()
     {
+        yield return new WaitForSeconds(CountDown.countdownTime);
         while (roundLenght > 0) 
         {
-            yield return new WaitForSeconds(roundLenght);
+            roundTimer.text = roundLenght.ToString();
+            yield return new WaitForSeconds(1);
             roundLenght--;
         }
+
+        roundTimer.text = "0";
+        yield return new WaitForSeconds(1);
+
         EndOfRound();
     }
     private void EndOfRound()

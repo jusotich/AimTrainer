@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TargetBehavior : MonoBehaviour
 {
-    public scoreManger scoreManger;
     public float health = 10f;
+
     public void TakeDamage(float amount)
     {
         health -= amount;
@@ -21,6 +22,18 @@ public class TargetBehavior : MonoBehaviour
             spawner.TargetDestroyed();
         }
         Destroy(gameObject);
-        scoreManger.currentScore += 10;
+    }
+    void OnDestroy()
+    {
+        // Notify the ScoreManager when this object is destroyed
+        scoreManger scoreManager = FindFirstObjectByType<scoreManger>();
+        if (scoreManager != null)
+        {
+            scoreManager.AddScore(10); // Add score when destroyed
+        }
+        else
+        {
+            Debug.LogError("ScoreManager not found!");
+        }
     }
 }
