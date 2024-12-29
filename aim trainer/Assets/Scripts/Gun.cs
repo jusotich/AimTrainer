@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     public Camera fpsCamera;
     private InputAction attackAction;
     public bool canShoot = true;
+    public float reloadTime = 1f;
 
     private void Start()
     {
@@ -56,12 +57,12 @@ public class Gun : MonoBehaviour
     {
         if (ammo >= 1)
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(reloadTime);
             ammo = ammoMax;
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(reloadTime);
             ammo = 9;
         }
     }

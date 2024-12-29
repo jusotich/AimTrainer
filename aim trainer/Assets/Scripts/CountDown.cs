@@ -31,10 +31,4 @@ public class CountDown : MonoBehaviour
         countdownText.gameObject.SetActive(false);
 
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

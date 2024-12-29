@@ -1,22 +1,20 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class roundCounter : MonoBehaviour
 {
     public int roundLenght;
     public TextMeshProUGUI roundTimer;
     public CountDown CountDown;
+    public scoreManger scoreManger;
+    public Gun Gun;
+    public PlayerMovement PlayerMovement;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         StartCoroutine(RoundCountdown());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     private IEnumerator RoundCountdown()
     {
@@ -31,11 +29,12 @@ public class roundCounter : MonoBehaviour
         roundTimer.text = "0";
         yield return new WaitForSeconds(1);
 
-        EndOfRound();
+        PlayerMovement.canMove = false;
+        Gun.canShoot = false;
+        scoreManger.AddScoreToList();
+        CountDown.countdownText.text = "finsish";
+        CountDown.countdownText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("MainMenu");
     }
-    private void EndOfRound()
-    {
-
-    }
-
 }
