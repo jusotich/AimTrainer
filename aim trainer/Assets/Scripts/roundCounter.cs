@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class roundCounter : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class roundCounter : MonoBehaviour
     public scoreManger scoreManger;
     public Gun Gun;
     public PlayerMovement PlayerMovement;
+    public string playerName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,7 +33,7 @@ public class roundCounter : MonoBehaviour
 
         PlayerMovement.canMove = false;
         Gun.canShoot = false;
-        scoreManger.AddScoreToList();
+        scoreManger.AddScoreToList(playerName);
         CountDown.countdownText.text = "finsish";
         CountDown.countdownText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3);

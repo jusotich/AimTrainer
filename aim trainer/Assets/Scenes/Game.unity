@@ -300,6 +300,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScore: 0
   score: {fileID: 922251375}
+  rowPreFab: {fileID: 3979989982702319229, guid: 9fde33fc989cc6d4fa1d4c5f7be5e5ef, type: 3}
+  leaderboardContent: {fileID: 0}
 --- !u!1 &342136424
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,6 +457,7 @@ MonoBehaviour:
   scoreManger: {fileID: 267341055}
   Gun: {fileID: 689399503}
   PlayerMovement: {fileID: 684980258}
+  playerName: 
 --- !u!4 &431327340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6449052625973075247, guid: 5b36f222af1ec2a40a43cf9b2773bdd6, type: 3}
