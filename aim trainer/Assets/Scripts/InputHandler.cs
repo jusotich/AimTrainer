@@ -3,27 +3,25 @@ using UnityEngine.UI;
 
 public class InputHandler : MonoBehaviour
 {
-    [SerializeField] private InputField inputField; // Drag your Input Field here in the Inspector
-    [SerializeField] private Text displayText; // Optional: A Text UI element to show the entered text
+    [SerializeField] private InputField inputField;
+    [SerializeField] private Text displayText;
 
     public void SubmitText()
     {
-        if (inputField != null)
+        if(inputField != null)
         {
-            string playerInput = inputField.text; // Get the entered text
-            Debug.Log("Player entered: " + playerInput);
-
+            string playerInput = inputField.text;
+            
             if (displayText != null)
             {
-                displayText.text = "You entered: " + playerInput;
+                displayText.text = "you enterd: " + playerInput;
             }
 
-            // Optionally, clear the input field after submission
             inputField.text = "";
         }
         else
         {
-            Debug.LogWarning("Input Field is not assigned.");
+            Debug.LogWarning("input dield is not assigend");
         }
     }
 }
