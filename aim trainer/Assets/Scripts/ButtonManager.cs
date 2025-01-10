@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class ButtonManager : MonoBehaviour
 {
-    public GameObject leaderboardPanel;
+    [SerializeField] private GameObject leaderboardPanel;
+    [SerializeField] private GameObject inputNameField;
     public void LoadGameScene()
     {
+        inputNameField.gameObject.SetActive(true);
+        leaderboardPanel.SetActive(false);
+
         SceneManager.LoadScene("Game");
     }
     public void QuitGame()

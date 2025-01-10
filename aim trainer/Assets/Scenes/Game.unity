@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 267341054}
   - component: {fileID: 267341055}
   m_Layer: 0
-  m_Name: ScoreManger
+  m_Name: GameManger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,8 +300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentScore: 0
   score: {fileID: 922251375}
-  rowPreFab: {fileID: 3979989982702319229, guid: 9fde33fc989cc6d4fa1d4c5f7be5e5ef, type: 3}
-  leaderboardContent: {fileID: 0}
 --- !u!1 &342136424
 GameObject:
   m_ObjectHideFlags: 0

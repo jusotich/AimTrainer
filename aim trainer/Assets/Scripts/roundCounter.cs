@@ -33,7 +33,6 @@ public class roundCounter : MonoBehaviour
 
         PlayerMovement.canMove = false;
         Gun.canShoot = false;
-        scoreManger.AddScoreToList(playerName);
         CountDown.countdownText.text = "finsish";
         CountDown.countdownText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
