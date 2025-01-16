@@ -1,8 +1,7 @@
-using System.Collections;
-using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.Rendering;
+using UnityEngine;
+using System.Collections;
 
 public class roundCounter : MonoBehaviour
 {
@@ -21,7 +20,7 @@ public class roundCounter : MonoBehaviour
     private IEnumerator RoundCountdown()
     {
         yield return new WaitForSeconds(CountDown.countdownTime);
-        while (roundLenght > 0) 
+        while (roundLenght > 0)
         {
             roundTimer.text = roundLenght.ToString();
             yield return new WaitForSeconds(1);
@@ -36,6 +35,8 @@ public class roundCounter : MonoBehaviour
         CountDown.countdownText.text = "finsish";
         CountDown.countdownText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene("MainMenu");
     }
 }

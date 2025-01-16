@@ -1,159 +1,137 @@
-using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+
 public class HighscoreTable : MonoBehaviour
 {
-    private Transform enteryContainer;
-    private Transform enteryTamplate;
+    public static HighscoreTable Instance;
+
+    [SerializeField] private Transform enteryContainer; // Assigned in Inspector if possible
+    [SerializeField] private Transform enteryTamplate;  // Assigned in Inspector if possible
+
     private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreenterytransformList;
 
     private void Awake()
     {
-        enteryContainer = transform.Find("HighscoreEntryContainer");
-        if (enteryContainer == null) Debug.LogError("HighscoreEntryContainer not found!");
-
-        enteryTamplate = enteryContainer.Find("HighscoreEntryTemplate");
-        if (enteryTamplate == null) Debug.LogError("HighscoreEntryTemplate not found!");
-
-        enteryTamplate.gameObject.SetActive(false);
-
-        highscoreEntryList = new List<HighscoreEntry>();
-        /*{
-        new HighscoreEntry{score = 1000, name = "AAA"},
-        new HighscoreEntry{score = 1000, name = "BBB"},
-        new HighscoreEntry{score = 1000, name = "CCC"},
-        new HighscoreEntry{score = 1000, name = "DDD"},
-        new HighscoreEntry{score = 1000, name = "EEE"},
-        new HighscoreEntry{score = 1000, name = "FFF"},
-        };*/
-
-        string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
-        
-        for (int i = 0; i < highscores.highscoreEntryList.Count; i++)
+        if (Instance == null)
         {
-            for (int j = i+1; j  < highscores.highscoreEntryList.Count; j++)
-            {
-                if (highscores.highscoreEntryList[j].score> highscores.highscoreEntryList[i].score)
-                {
-                    //swap
-                    HighscoreEntry tmp = highscores.highscoreEntryList[i];
-                    highscores.highscoreEntryList[i] = highscores.highscoreEntryList[j];
-                    highscores.highscoreEntryList[j] = tmp;
-                }  
-            }
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        highscoreenterytransformList = new List<Transform>();
-        foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+        else
         {
-            CreateHighscoreEntryTransform(highscoreEntry, enteryContainer, highscoreenterytransformList);
+            Destroy(gameObject);
+            return;
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (enteryContainer != null && enteryTamplate != null)
+        {
+            InitializeHighscoreTable();
         }
     }
-    private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry,Transform container, List<Transform>transformList)
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "MainMenu") // Only reconnect references in the Main Menu scene
+        {
+            // Find the Canvas and navigate to the container
+            Transform canvasTransform = GameObject.Find("Canvas")?.transform;
+            if (canvasTransform == null)
+            {
+                Debug.LogError("Canvas not found in the Main Menu scene.");
+                return;
+            }
+
+            Transform leaderboardPanel = canvasTransform.Find("leaderboardPanel");
+            if (leaderboardPanel == null)
+            {
+                Debug.LogError("leaderboardPanel not found under Canvas.");
+                return;
+            }
+
+            enteryContainer = leaderboardPanel.Find("HighscoreEntryContainer");
+            if (enteryContainer == null)
+            {
+                Debug.LogError("HighscoreEntryContainer not found under leaderboardPanel.");
+                return;
+            }
+
+            enteryTamplate = enteryContainer.Find("HighscoreEntryTemplate");
+            if (enteryTamplate == null)
+            {
+                Debug.LogError("HighscoreEntryTemplate not found under HighscoreEntryContainer.");
+                return;
+            }
+
+            InitializeHighscoreTable();
+        }
+    }
+
+    private void InitializeHighscoreTable()
+    {
+        enteryTamplate.gameObject.SetActive(false);
+        highscoreEntryList = new List<HighscoreEntry>();
+
+        // Load highscores from PlayerPrefs
+        string jsonString = PlayerPrefs.GetString("highscoreTable");
+        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+
+        if (highscores != null)
+        {
+            highscoreenterytransformList = new List<Transform>();
+            foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
+            {
+                CreateHighscoreEntryTransform(highscoreEntry, enteryContainer, highscoreenterytransformList);
+            }
+        }
+    }
+
+    private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
     {
         float templateHight = 30f;
-        Debug.Log("loop worked");
         Transform enteryTransform = Instantiate(enteryTamplate, container);
-        if (enteryTransform == null)
-        {
-            Debug.LogError("Failed to instantiate HighscoreEntryTemplate!");
-            return;
-        }
-
-        RectTransform enteryRectTrensform = enteryTransform.GetComponent<RectTransform>();
-        enteryRectTrensform.anchoredPosition = new Vector2(0, -templateHight * transformList.Count);
+        RectTransform enteryRectTransform = enteryTransform.GetComponent<RectTransform>();
+        enteryRectTransform.anchoredPosition = new Vector2(0, -templateHight * transformList.Count);
         enteryTransform.gameObject.SetActive(true);
 
-        int rank = transformList.Count + 1;
-        string rankString;
-        switch (rank)
-        {
-            default:
-                rankString = rank + "th"; break;
-            case 1: rankString = "1st"; break;
-            case 2: rankString = "2nd"; break;
-            case 3: rankString = "3rd"; break;
-        }
-        Debug.Log("ranking worked");
-
-        // Find and set PlaceText
-        Transform placeText = enteryTransform.Find("PlaceText");
-        if (placeText == null)
-        {
-            Debug.LogError("PlaceText not found in instantiated template!");
-            return;
-        }
-
-        TextMeshProUGUI placeTextComponent = placeText.GetComponent<TextMeshProUGUI>();
-        if (placeTextComponent == null)
-        {
-            Debug.LogError("TextMeshProUGUI component missing on PlaceText!");
-            return;
-        }
-        placeTextComponent.text = rankString;
-
-
-        // Find and set ScoreText
-        Transform scoreText = enteryTransform.Find("ScoreText");
-        if (scoreText == null)
-        {
-            Debug.LogError("ScoreText not found in instantiated template!");
-            return;
-        }
-
-        TextMeshProUGUI scoreTextComponent = scoreText.GetComponent<TextMeshProUGUI>();
-        if (scoreTextComponent == null)
-        {
-            Debug.LogError("TextMeshProUGUI component missing on ScoreText!");
-            return;
-        }
-        scoreTextComponent.text = highscoreEntry.score.ToString();
-
-        // Find and set NameText
-        Transform nameText = enteryTransform.Find("NameText");
-        if (nameText == null)
-        {
-            Debug.LogError("NameText not found in instantiated template!");
-            return;
-        }
-
-        TextMeshProUGUI nameTextComponent = nameText.GetComponent<TextMeshProUGUI>();
-        if (nameTextComponent == null)
-        {
-            Debug.LogError("TextMeshProUGUI component missing on NameText!");
-            return;
-        }
-        nameTextComponent.text = highscoreEntry.name;
+        // Assign rank, score, and name
+        enteryTransform.Find("PlaceText").GetComponent<TextMeshProUGUI>().text = $"{transformList.Count + 1}";
+        enteryTransform.Find("ScoreText").GetComponent<TextMeshProUGUI>().text = highscoreEntry.score.ToString();
+        enteryTransform.Find("NameText").GetComponent<TextMeshProUGUI>().text = highscoreEntry.name;
 
         transformList.Add(enteryTransform);
     }
 
-
-    private void AddHighscoreEntry(int score, string name)
+    public void AddHighscoreEntry(int score, string name)
     {
-        //creat highscoreEntry
-        HighscoreEntry highscoreEntry = new HighscoreEntry {score = score,name = name };
+        // Create new entry
+        HighscoreEntry highscoreEntry = new HighscoreEntry { score = score, name = name };
 
-        // load savved highscores
+        // Load saved highscores
         string jsonString = PlayerPrefs.GetString("highscoreTable");
-        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
+        Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString) ?? new Highscores { highscoreEntryList = new List<HighscoreEntry>() };
 
-        // add new entry yo highscores
+        // Add new entry and save
         highscores.highscoreEntryList.Add(highscoreEntry);
-
-        //save updated highscores
         string json = JsonUtility.ToJson(highscores);
-        PlayerPrefs.SetString("highscoreTable",json);
+        PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
     }
+
+    [System.Serializable]
     private class Highscores
     {
         public List<HighscoreEntry> highscoreEntryList;
     }
-
 
     [System.Serializable]
     private class HighscoreEntry
