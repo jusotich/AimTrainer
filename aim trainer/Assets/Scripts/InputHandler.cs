@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InputHandler : MonoBehaviour
 {
-    [SerializeField] private InputField inputField;
+    [SerializeField] private TextMeshProUGUI inputField;
     [SerializeField] private Text displayText;
-
+    private void Awake()
+    {
+        // Make sure this GameObject persists between scenes
+        DontDestroyOnLoad(gameObject);
+    }
     public void SubmitText()
     {
         if(inputField != null)
@@ -18,10 +24,12 @@ public class InputHandler : MonoBehaviour
             }
 
             inputField.text = "";
+
+            SceneManager.LoadScene("Game");
         }
         else
         {
-            Debug.LogWarning("input dield is not assigend");
+            Debug.LogWarning("input field is not assigend");
         }
     }
 }

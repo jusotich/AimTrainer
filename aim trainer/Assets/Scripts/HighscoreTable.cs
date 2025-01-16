@@ -7,6 +7,7 @@ public class HighscoreTable : MonoBehaviour
 {
     private Transform enteryContainer;
     private Transform enteryTamplate;
+    private List<HighscoreEntry> highscoreEntryList;
     private List<Transform> highscoreenterytransformList;
 
     private void Awake()
@@ -18,6 +19,16 @@ public class HighscoreTable : MonoBehaviour
         if (enteryTamplate == null) Debug.LogError("HighscoreEntryTemplate not found!");
 
         enteryTamplate.gameObject.SetActive(false);
+
+        highscoreEntryList = new List<HighscoreEntry>();
+        /*{
+        new HighscoreEntry{score = 1000, name = "AAA"},
+        new HighscoreEntry{score = 1000, name = "BBB"},
+        new HighscoreEntry{score = 1000, name = "CCC"},
+        new HighscoreEntry{score = 1000, name = "DDD"},
+        new HighscoreEntry{score = 1000, name = "EEE"},
+        new HighscoreEntry{score = 1000, name = "FFF"},
+        };*/
 
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);

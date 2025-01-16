@@ -452,7 +452,7 @@ MonoBehaviour:
   roundLenght: 10
   roundTimer: {fileID: 342136426}
   CountDown: {fileID: 1089470206}
-  scoreManger: {fileID: 267341055}
+  scoreManger: {fileID: 0}
   Gun: {fileID: 689399503}
   PlayerMovement: {fileID: 684980258}
   playerName: 
