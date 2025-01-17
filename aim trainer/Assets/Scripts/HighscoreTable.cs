@@ -89,6 +89,8 @@ public class HighscoreTable : MonoBehaviour
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
+
+
         if (highscores != null)
         {
             highscoreenterytransformList = new List<Transform>();

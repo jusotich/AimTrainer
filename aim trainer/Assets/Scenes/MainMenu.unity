@@ -363,6 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a49c3d44b8f089648abdc7b2fc25cd9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreManger: {fileID: 618525667}
   enteryContainer: {fileID: 1976639268}
   enteryTamplate: {fileID: 2069302957}
 --- !u!4 &221944166
