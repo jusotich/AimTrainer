@@ -5,6 +5,8 @@ using TMPro;
 
 public class HighscoreTable : MonoBehaviour
 {
+    public scoreManger scoreManger;
+
     public static HighscoreTable Instance;
 
     [SerializeField] private Transform enteryContainer; // Assigned in Inspector if possible
@@ -71,6 +73,8 @@ public class HighscoreTable : MonoBehaviour
                 Debug.LogError("HighscoreEntryTemplate not found under HighscoreEntryContainer.");
                 return;
             }
+
+            scoreManger.SaveEvent();
 
             InitializeHighscoreTable();
         }
