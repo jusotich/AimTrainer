@@ -89,10 +89,11 @@ public class HighscoreTable : MonoBehaviour
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
-
-
         if (highscores != null)
         {
+            // Sort the highscore list in descending order by score
+            highscores.highscoreEntryList.Sort((entry1, entry2) => entry2.score.CompareTo(entry1.score));
+
             highscoreenterytransformList = new List<Transform>();
             foreach (HighscoreEntry highscoreEntry in highscores.highscoreEntryList)
             {
@@ -132,6 +133,11 @@ public class HighscoreTable : MonoBehaviour
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
     }
+    public void DeletEntry()
+    {
+        PlayerPrefs.DeleteKey("highscoreTable");
+    }
+
 
     [System.Serializable]
     private class Highscores

@@ -42,9 +42,21 @@ public class Gun : MonoBehaviour
                 Debug.DrawLine(fpsCamera.transform.position, hit.point, Color.red, 2f);
 
                 TargetBehavior target = hit.collider.GetComponent<TargetBehavior>();
+                CapsulEnemy capsulEnemy = hit.collider.GetComponent<CapsulEnemy>();
+
+                
                 if (target != null)
                 {
-                    target.TakeDamage(10);
+                    target.TakeDamage(10); // Generic damage
+                    return;
+                }
+
+                // Check for specific target types
+                
+                if (capsulEnemy != null)
+                {
+                    capsulEnemy.TakeDamage(10); // 
+                    return;
                 }
             }
         }

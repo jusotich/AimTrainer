@@ -2757,7 +2757,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c41dd66c67b13854584c71655ab5f674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 4785308614103007462, guid: 6cecf09e2282ab24d8d07207ba046645, type: 3}
+  targetPrefab:
+  - {fileID: 4785308614103007462, guid: 6cecf09e2282ab24d8d07207ba046645, type: 3}
+  - {fileID: 9205792165415057297, guid: 9312c433d5c319f4fb05aeb25d4790e9, type: 3}
   maxTargets: 2
   spawnInterval: 0.1
   spawnArea: {x: 50, y: 10, z: 40}
